@@ -1,10 +1,13 @@
 import React, { FC } from 'react';
+import Countdown from './countdown/Countdown';
+import CountdownActions from './actions/CountdownActions';
 
 const App: FC = () => {
   return (
-    <>
-      BATMAN
-    </>
+    <div className="container">
+        <Countdown />
+        <CountdownActions />
+    </div>
   );
 };
 
