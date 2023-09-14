@@ -15,7 +15,7 @@ const Countdown: FC<CountdownProps> = (props) => {
     return "countdown " + (chrono === chronoElement ? " selected" : "");
   };
 
-  const setCurrentChrono = (newChrono) => {
+  const setCurrentChrono = (newChrono: Chrono) => {
     setChrono(
         newChrono !== chrono ? newChrono : null
     );
