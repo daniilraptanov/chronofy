@@ -25,17 +25,18 @@ class ChronoModelImpl implements IChronoModel {
         if (chronoType === Chrono.SECONDS) this._seconds = value;
     }
 
-    reduceChrono(): void {
-        console.log(this._seconds);
-        if (this._seconds >= MIN_CHRONO_VALUE) {
+    reduceChrono(timeUpCallback: () => void): void {
+        if (this._seconds > MIN_CHRONO_VALUE) {
             this._seconds -= COUNTDOWN_COEFFICIENT;
-        } else if (this._minutes >= MIN_CHRONO_VALUE) {
+        } else if (this._minutes > MIN_CHRONO_VALUE) {
             this._minutes -= COUNTDOWN_COEFFICIENT;
             this._seconds = MAX_CHRONO_VALUE;
-        } else if (this._hours >= MIN_CHRONO_VALUE) {
+        } else if (this._hours > MIN_CHRONO_VALUE) {
             this._hours -= COUNTDOWN_COEFFICIENT;
             this._minutes = MAX_CHRONO_VALUE;
             this._seconds = MAX_CHRONO_VALUE;
+        } else {
+            timeUpCallback();
         }
     }
 

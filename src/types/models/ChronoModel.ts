@@ -10,5 +10,5 @@ export interface IChronoModel {
     readonly secondsView: string;
 
     setChrono(chronoType: Chrono, value: number);
-    reduceChrono(): void;
+    reduceChrono(timeUpCallback: () => void): void;
 }

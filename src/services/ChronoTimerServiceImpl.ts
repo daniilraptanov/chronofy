@@ -7,10 +7,25 @@ import { IChronoModel } from "../types/models/ChronoModel";
 import { IChronoTimerService } from "../types/services/ChronoTimerService";
 
 class ChronoTimerServiceImpl implements IChronoTimerService {
-  private getCountdownCallback(chronoModel: IChronoModel, callback: () => void) {
+  private _timer: NodeJS.Timeout;
+
+  private static _instance: IChronoTimerService;
+  private constructor() {}
+
+  static getInstance() {
+    if (!ChronoTimerServiceImpl._instance) {
+      ChronoTimerServiceImpl._instance = new ChronoTimerServiceImpl();
+    }
+    return ChronoTimerServiceImpl._instance;
+  }
+
+  private getCountdownCallback(
+    chronoModel: IChronoModel,
+    callback: () => void
+  ) {
     return () => {
-        chronoModel.reduceChrono();
-        callback();
+      chronoModel.reduceChrono(() => clearInterval(this._timer));
+      callback();
     };
   }
 
@@ -24,8 +39,10 @@ class ChronoTimerServiceImpl implements IChronoTimerService {
   }
 
   startTimer(chronoModel: IChronoModel, updateCallback: () => void): void {
-    const onSecondTimer = setInterval(this.getCountdownCallback(chronoModel, updateCallback), MILLISECONDS_IN_ONE_SECOND);
-    const totalTimer = setTimeout(() => console.log("total"), this.getCountdownDelay(chronoModel));
+    this._timer = setInterval(
+      this.getCountdownCallback(chronoModel, updateCallback),
+      MILLISECONDS_IN_ONE_SECOND
+    );
   }
 
   stopTimer(): void {}
@@ -33,6 +50,11 @@ class ChronoTimerServiceImpl implements IChronoTimerService {
   resetTimer(): void {}
 }
 
+
+/**
+ * This function return Singleton!
+ * @returns ChronoTimerServiceImpl
+ */
 export function chronoTimerServiceFactory(): IChronoTimerService {
-  return new ChronoTimerServiceImpl();
+  return ChronoTimerServiceImpl.getInstance();
 }
