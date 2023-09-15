@@ -25,6 +25,12 @@ class ChronoModelImpl implements IChronoModel {
         if (chronoType === Chrono.SECONDS) this._seconds = value;
     }
 
+    resetChrono(): void {
+        this._hours = MIN_CHRONO_VALUE;
+        this._minutes = MIN_CHRONO_VALUE;
+        this._seconds = MIN_CHRONO_VALUE;
+    }
+
     reduceChrono(timeUpCallback: () => void): void {
         if (this._seconds > MIN_CHRONO_VALUE) {
             this._seconds -= COUNTDOWN_COEFFICIENT;

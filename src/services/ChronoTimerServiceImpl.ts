@@ -45,9 +45,14 @@ class ChronoTimerServiceImpl implements IChronoTimerService {
     );
   }
 
-  stopTimer(): void {}
+  stopTimer(): void {
+    clearInterval(this._timer);
+  }
 
-  resetTimer(): void {}
+  resetTimer(chronoModel: IChronoModel): void {
+    clearInterval(this._timer);
+    chronoModel.resetChrono();
+  }
 }
 
 
