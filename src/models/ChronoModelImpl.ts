@@ -2,7 +2,7 @@ import { Chrono } from "../types/enums/chrono-enum";
 import { IChronoModel } from "../types/models/ChronoModel";
 
 class ChronoModelImpl implements IChronoModel {
-    private static DEFAULT_CHRONO = "00";
+    private static DEFAULT_CHRONO_VIEW = "00";
 
     private _hours: number = 0;
     private _minutes: number = 0;
@@ -24,16 +24,16 @@ class ChronoModelImpl implements IChronoModel {
         if (chronoType === Chrono.SECONDS) this._seconds = value;
     }
 
-    get hours(): string {
-        return this._hours ? this._hours.toString() : ChronoModelImpl.DEFAULT_CHRONO;
+    get hoursView(): string {
+        return this._hours ? this._hours.toString() : ChronoModelImpl.DEFAULT_CHRONO_VIEW;
     }
 
-    get minutes(): string {
-        return this._minutes ? this._minutes.toString() : ChronoModelImpl.DEFAULT_CHRONO;
+    get minutesView(): string {
+        return this._minutes ? this._minutes.toString() : ChronoModelImpl.DEFAULT_CHRONO_VIEW;
     }
 
-    get seconds(): string {
-        return this._seconds ? this._seconds.toString() : ChronoModelImpl.DEFAULT_CHRONO;
+    get secondsView(): string {
+        return this._seconds ? this._seconds.toString() : ChronoModelImpl.DEFAULT_CHRONO_VIEW;
     }
 }
 

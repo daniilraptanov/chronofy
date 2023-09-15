@@ -38,9 +38,9 @@ const Countdown: FC<CountdownProps> = (props) => {
   return (
     <div className={getCountdownClassName()}>
       <div id="countdown-timer">
-        <span className={getChronoClassName(Chrono.HOURS)} onClick={() => setCurrentChrono(Chrono.HOURS)}>{chronoModel.hours}</span>:
-        <span className={getChronoClassName(Chrono.MINUTES)} onClick={() => setCurrentChrono(Chrono.MINUTES)}>{chronoModel.minutes}</span>:
-        <span className={getChronoClassName(Chrono.SECONDS)} onClick={() => setCurrentChrono(Chrono.SECONDS)}>{chronoModel.seconds}</span>
+        <span className={getChronoClassName(Chrono.HOURS)} onClick={() => setCurrentChrono(Chrono.HOURS)}>{chronoModel.hoursView}</span>:
+        <span className={getChronoClassName(Chrono.MINUTES)} onClick={() => setCurrentChrono(Chrono.MINUTES)}>{chronoModel.minutesView}</span>:
+        <span className={getChronoClassName(Chrono.SECONDS)} onClick={() => setCurrentChrono(Chrono.SECONDS)}>{chronoModel.secondsView}</span>
       </div>
     </div>
   );
