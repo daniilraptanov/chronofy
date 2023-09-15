@@ -12,6 +12,13 @@ class ChronoModelImpl implements IChronoModel {
     private static _instance: IChronoModel;
     private constructor() {}
 
+    private getCorrectlyView(value: number): string {
+        if (value <= 9) {
+            return "0" + value;
+        }
+        return value.toString();
+    }
+
     static getInstance() {
         if (!ChronoModelImpl._instance) {
             ChronoModelImpl._instance = new ChronoModelImpl();
@@ -59,15 +66,15 @@ class ChronoModelImpl implements IChronoModel {
     }
 
     get hoursView(): string {
-        return this._hours ? this._hours.toString() : ChronoModelImpl.DEFAULT_CHRONO_VIEW;
+        return this._hours ? this.getCorrectlyView(this._hours) : ChronoModelImpl.DEFAULT_CHRONO_VIEW;
     }
 
     get minutesView(): string {
-        return this._minutes ? this._minutes.toString() : ChronoModelImpl.DEFAULT_CHRONO_VIEW;
+        return this._minutes ? this.getCorrectlyView(this._minutes) : ChronoModelImpl.DEFAULT_CHRONO_VIEW;
     }
 
     get secondsView(): string {
-        return this._seconds ? this._seconds.toString() : ChronoModelImpl.DEFAULT_CHRONO_VIEW;
+        return this._seconds ? this.getCorrectlyView(this._seconds) : ChronoModelImpl.DEFAULT_CHRONO_VIEW;
     }
 }
 
