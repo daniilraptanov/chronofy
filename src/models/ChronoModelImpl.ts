@@ -1,12 +1,13 @@
+import { COUNTDOWN_COEFFICIENT, MAX_CHRONO_VALUE, MIN_CHRONO_VALUE } from "../constants";
 import { Chrono } from "../types/enums/chrono-enum";
 import { IChronoModel } from "../types/models/ChronoModel";
 
 class ChronoModelImpl implements IChronoModel {
     private static DEFAULT_CHRONO_VIEW = "00";
 
-    private _hours: number = 0;
-    private _minutes: number = 0;
-    private _seconds: number = 0;
+    private _hours: number = MIN_CHRONO_VALUE;
+    private _minutes: number = MIN_CHRONO_VALUE;
+    private _seconds: number = MIN_CHRONO_VALUE;
 
     private static _instance: IChronoModel;
     private constructor() {}
@@ -22,6 +23,32 @@ class ChronoModelImpl implements IChronoModel {
         if (chronoType === Chrono.HOURS) this._hours = value;
         if (chronoType === Chrono.MINUTES) this._minutes = value;
         if (chronoType === Chrono.SECONDS) this._seconds = value;
+    }
+
+    reduceChrono(): void {
+        console.log(this._seconds);
+        if (this._seconds >= MIN_CHRONO_VALUE) {
+            this._seconds -= COUNTDOWN_COEFFICIENT;
+        } else if (this._minutes >= MIN_CHRONO_VALUE) {
+            this._minutes -= COUNTDOWN_COEFFICIENT;
+            this._seconds = MAX_CHRONO_VALUE;
+        } else if (this._hours >= MIN_CHRONO_VALUE) {
+            this._hours -= COUNTDOWN_COEFFICIENT;
+            this._minutes = MAX_CHRONO_VALUE;
+            this._seconds = MAX_CHRONO_VALUE;
+        }
+    }
+
+    get hoursValue(): number {
+        return this._hours;
+    }
+
+    get minutesValue(): number {
+        return this._minutes;
+    }
+
+    get secondsValue(): number {
+        return this._seconds;
     }
 
     get hoursView(): string {
