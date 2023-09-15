@@ -1,14 +1,47 @@
 import { Chrono } from "../types/enums/chrono-enum";
 import { IChronoModel } from "../types/models/ChronoModel";
 
-export class ChronoModelImpl implements IChronoModel {
-    hours: number;
-    minutes: number;
-    seconds: number;
+class ChronoModelImpl implements IChronoModel {
+    private static DEFAULT_CHRONO = "00";
+
+    private _hours: number = 0;
+    private _minutes: number = 0;
+    private _seconds: number = 0;
+
+    private static _instance: IChronoModel;
+    private constructor() {}
+
+    static getInstance() {
+        if (!ChronoModelImpl._instance) {
+            ChronoModelImpl._instance = new ChronoModelImpl();
+        }
+        return ChronoModelImpl._instance;
+    }
 
     setChrono(chronoType: Chrono, value: number) {
-        if (chronoType === Chrono.HOURS) this.hours = value;
-        if (chronoType === Chrono.MINUTES) this.minutes = value;
-        if (chronoType === Chrono.SECONDS) this.seconds = value;
+        if (chronoType === Chrono.HOURS) this._hours = value;
+        if (chronoType === Chrono.MINUTES) this._minutes = value;
+        if (chronoType === Chrono.SECONDS) this._seconds = value;
     }
+
+    get hours(): string {
+        return this._hours ? this._hours.toString() : ChronoModelImpl.DEFAULT_CHRONO;
+    }
+
+    get minutes(): string {
+        return this._minutes ? this._minutes.toString() : ChronoModelImpl.DEFAULT_CHRONO;
+    }
+
+    get seconds(): string {
+        return this._seconds ? this._seconds.toString() : ChronoModelImpl.DEFAULT_CHRONO;
+    }
+}
+
+
+/**
+ * This function return Singleton!
+ * @returns ChronoModelImpl
+ */
+export function chronoModelFactory(): IChronoModel {
+    return ChronoModelImpl.getInstance();
 }
