@@ -1,8 +1,4 @@
-import {
-  MILLISECONDS_IN_ONE_SECOND,
-  SECONDS_IN_ONE_HOUR,
-  SECONDS_IN_ONE_MINUTE,
-} from "../constants";
+import { MILLISECONDS_IN_ONE_SECOND } from "../constants";
 import { IChronoModel } from "../types/models/ChronoModel";
 import { IChronoTimerService } from "../types/services/ChronoTimerService";
 
@@ -27,15 +23,6 @@ class ChronoTimerServiceImpl implements IChronoTimerService {
       chronoModel.reduceChrono(() => clearInterval(this._timer));
       callback();
     };
-  }
-
-  private getCountdownDelay(chronoModel: IChronoModel) {
-    return (
-      (chronoModel.hoursValue * SECONDS_IN_ONE_HOUR +
-        chronoModel.minutesValue * SECONDS_IN_ONE_MINUTE +
-        chronoModel.secondsValue) *
-      MILLISECONDS_IN_ONE_SECOND
-    );
   }
 
   startTimer(chronoModel: IChronoModel, updateCallback: () => void): void {
