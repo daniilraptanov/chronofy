@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useEffect, useMemo, useState } from "react";
+import React, { FC, useCallback, useEffect, useState } from "react";
 import Countdown from "./countdown/Countdown";
 import CountdownActions from "./actions/CountdownActions";
 import { chronoModelFactory } from "../models/ChronoModelImpl";
@@ -9,10 +9,9 @@ import { getChronoParamByChronoType } from "../tools";
 import { ChronoParams } from "../types/enums/chrono-params-enum";
 
 const locationService = locationServiceFactory();
+const chronoModel = chronoModelFactory();
 
 const App: FC = () => {
-  const chronoModel = useMemo(() => chronoModelFactory(), []);
-
   const [chrono, setChrono] = useState<Chrono>(null);
   const [totalCounter, setTotalCounter] = useState(0); // TODO :: use counter or refactoring views-update
   const [isResetButtonPressed, setResetButtonPressed] = useState(false);
@@ -37,7 +36,7 @@ const App: FC = () => {
       chronoModel.setChrono(chrono, chronoValue);
       locationService.pushParam(getChronoParamByChronoType(chrono), chronoValue);
     },
-    [chrono, chronoModel]
+    [chrono]
   );
 
   const { reset } = useKeyboardChronoInput({ setInputCallback });
@@ -53,7 +52,7 @@ const App: FC = () => {
     chronoModel.setChrono(Chrono.MINUTES, locationService.parseParam(ChronoParams.MINUTES) as number);
     chronoModel.setChrono(Chrono.SECONDS, locationService.parseParam(ChronoParams.SECONDS) as number);
     reset();
-  }, [chronoModel, reset]);
+  }, []);
 
   return (
     <div className="container">
