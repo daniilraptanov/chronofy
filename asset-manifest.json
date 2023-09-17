@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.js": "/chronofy/static/js/main.0baf4f59.js",
+    "main.js": "/chronofy/static/js/main.b7aa4454.js",
     "index.html": "/chronofy/index.html",
-    "main.0baf4f59.js.map": "/chronofy/static/js/main.0baf4f59.js.map"
+    "main.b7aa4454.js.map": "/chronofy/static/js/main.b7aa4454.js.map"
   },
   "entrypoints": [
-    "static/js/main.0baf4f59.js"
+    "static/js/main.b7aa4454.js"
   ]
 }
