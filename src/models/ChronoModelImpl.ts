@@ -5,20 +5,12 @@ import { IChronoModel } from "../types/models/ChronoModel";
 class ChronoModelImpl implements IChronoModel {
     private static DEFAULT_CHRONO_VIEW = "00";
 
-    private _hours: number;
-    private _minutes: number;
-    private _seconds: number;
+    private _hours: number = MIN_CHRONO_VALUE;
+    private _minutes: number = MIN_CHRONO_VALUE;
+    private _seconds: number = MIN_CHRONO_VALUE;
 
     private static _instance: IChronoModel;
-    private constructor(
-        hours: number,
-        minutes: number,
-        seconds: number,
-    ) {
-        this._hours = hours;
-        this._minutes = minutes;
-        this._seconds = seconds;
-    }
+    private constructor() {}
 
     private getCorrectlyView(value: number): string {
         if (value <= 9) {
@@ -27,13 +19,9 @@ class ChronoModelImpl implements IChronoModel {
         return value.toString();
     }
 
-    static getInstance(
-        hours: number,
-        minutes: number,
-        seconds: number,
-    ) {
+    static getInstance() {
         if (!ChronoModelImpl._instance) {
-            ChronoModelImpl._instance = new ChronoModelImpl(hours, minutes, seconds);
+            ChronoModelImpl._instance = new ChronoModelImpl();
         }
         return ChronoModelImpl._instance;
     }
@@ -98,14 +86,6 @@ class ChronoModelImpl implements IChronoModel {
  * @param seconds number
  * @returns This function return Singleton of ChronoModelImpl!
  */
-export function chronoModelFactory(
-    hours?: number,
-    minutes?: number,
-    seconds?: number,
-): IChronoModel {
-    return ChronoModelImpl.getInstance(
-        hours || MIN_CHRONO_VALUE, 
-        minutes || MIN_CHRONO_VALUE, 
-        seconds || MIN_CHRONO_VALUE,
-    );
+export function chronoModelFactory(): IChronoModel {
+    return ChronoModelImpl.getInstance();
 }
