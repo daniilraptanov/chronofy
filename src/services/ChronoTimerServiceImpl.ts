@@ -1,12 +1,17 @@
 import { MILLISECONDS_IN_ONE_SECOND } from "../constants";
 import { IChronoModel } from "../types/models/ChronoModel";
 import { IChronoTimerService } from "../types/services/ChronoTimerService";
+import { INotificationService } from "../types/services/NotificationService";
+import notificationServiceFactory from "./NotificationServiceImpl";
 
 class ChronoTimerServiceImpl implements IChronoTimerService {
   private _timer: NodeJS.Timeout;
+  private notificationService: INotificationService;
 
   private static _instance: IChronoTimerService;
-  private constructor() {}
+  private constructor() {
+    this.notificationService = notificationServiceFactory();
+  }
 
   static getInstance() {
     if (!ChronoTimerServiceImpl._instance) {
@@ -20,7 +25,10 @@ class ChronoTimerServiceImpl implements IChronoTimerService {
     callback: () => void
   ) {
     return () => {
-      chronoModel.reduceChrono(() => clearInterval(this._timer));
+      chronoModel.reduceChrono(() => {
+        clearInterval(this._timer);
+        this.notificationService.notifyUser("Time is up!");
+      });
       callback();
     };
   }
@@ -30,15 +38,18 @@ class ChronoTimerServiceImpl implements IChronoTimerService {
       this.getCountdownCallback(chronoModel, updateCallback),
       MILLISECONDS_IN_ONE_SECOND
     );
+    this.notificationService.notifyUser("Time started!");
   }
 
   stopTimer(): void {
     clearInterval(this._timer);
+    this.notificationService.notifyUser("Time stopped!");
   }
 
   resetTimer(chronoModel: IChronoModel): void {
     clearInterval(this._timer);
     chronoModel.resetChrono();
+    this.notificationService.notifyUser("Time reset!");
   }
 }
 
