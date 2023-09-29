@@ -9,8 +9,11 @@ export interface IChronoModel {
     readonly minutesView: string;
     readonly secondsView: string;
 
-    setChrono(chronoType: Chrono, value: number);
+    setChrono(chronoType: Chrono, value: number): void;
     resetChrono(): void;
+
+    setInitialChronoByCurrent(): void;
+    restoreChronoByInitial(): void;
 
     reduceChrono(timeUpCallback: () => void): void;
 }

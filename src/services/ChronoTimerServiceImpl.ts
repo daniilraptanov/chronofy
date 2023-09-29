@@ -22,20 +22,27 @@ class ChronoTimerServiceImpl implements IChronoTimerService {
 
   private getCountdownCallback(
     chronoModel: IChronoModel,
-    callback: () => void
+    callback: () => void,
+    restart?: boolean,
   ) {
     return () => {
       chronoModel.reduceChrono(() => {
         clearInterval(this._timer);
         this.notificationService.notifyUser("Time is up!");
+
+        if (restart) {
+          chronoModel.restoreChronoByInitial();
+          this.startTimer(chronoModel, callback);
+        }
       });
       callback();
     };
   }
 
-  startTimer(chronoModel: IChronoModel, updateCallback: () => void): void {
+  startTimer(chronoModel: IChronoModel, updateCallback: () => void, loop?: boolean): void {
+    chronoModel.setInitialChronoByCurrent();
     this._timer = setInterval(
-      this.getCountdownCallback(chronoModel, updateCallback),
+      this.getCountdownCallback(chronoModel, updateCallback, loop),
       MILLISECONDS_IN_ONE_SECOND
     );
     this.notificationService.notifyUser("Time started!");

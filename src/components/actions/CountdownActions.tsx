@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import { chronoTimerServiceFactory } from "../../services/ChronoTimerServiceImpl";
 import { chronoModelFactory } from "../../models/ChronoModelImpl";
 
@@ -11,6 +11,8 @@ const chronoTimerService = chronoTimerServiceFactory();
 const chronoModel = chronoModelFactory();
 
 const Component: FC<ComponentProps> = (props) => {
+    const [restartAfterTimeUp, setRestartAfterTimeUp] = useState(false);
+
     const resetHandler = () => {
         chronoTimerService.resetTimer(chronoModel);
         props.resetCallback();
@@ -20,7 +22,7 @@ const Component: FC<ComponentProps> = (props) => {
         <div className="buttons">
             <button
                 className="icon-button start-button"
-                onClick={() => chronoTimerService.startTimer(chronoModel, props.updateCounter)}
+                onClick={() => chronoTimerService.startTimer(chronoModel, props.updateCounter, restartAfterTimeUp)}
             >&#9654;</button>
             <button 
                 className="icon-button pause-button"
@@ -30,6 +32,12 @@ const Component: FC<ComponentProps> = (props) => {
                 className="icon-button reset-button"
                 onClick={resetHandler}
             >&#8634;</button>
+            <input
+                type="radio"
+                className="icon-button"
+                checked={restartAfterTimeUp}
+                onChange={() => setRestartAfterTimeUp(!restartAfterTimeUp)}
+            />
         </div>
     );
 }

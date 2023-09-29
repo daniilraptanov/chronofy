@@ -9,6 +9,10 @@ class ChronoModelImpl implements IChronoModel {
     private _minutes: number = MIN_CHRONO_VALUE;
     private _seconds: number = MIN_CHRONO_VALUE;
 
+    private _initialHours: number = MIN_CHRONO_VALUE;
+    private _initialMinutes: number = MIN_CHRONO_VALUE;
+    private _initialSeconds: number = MIN_CHRONO_VALUE;
+
     private static _instance: IChronoModel;
     private constructor() {}
 
@@ -36,6 +40,18 @@ class ChronoModelImpl implements IChronoModel {
         this._hours = MIN_CHRONO_VALUE;
         this._minutes = MIN_CHRONO_VALUE;
         this._seconds = MIN_CHRONO_VALUE;
+    }
+
+    setInitialChronoByCurrent(): void {
+        this._initialHours = this._hours;
+        this._initialMinutes = this._minutes;
+        this._initialSeconds = this._seconds;
+    }
+
+    restoreChronoByInitial(): void {
+        this._hours = this._initialHours;
+        this._minutes = this._initialMinutes;
+        this._seconds = this._initialSeconds;
     }
 
     reduceChrono(timeUpCallback: () => void): void {
