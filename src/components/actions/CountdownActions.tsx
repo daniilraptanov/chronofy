@@ -17,7 +17,7 @@ const Component: FC<ComponentProps> = (props) => {
         chronoTimerService.resetTimer(chronoModel);
         props.resetCallback();
     }
-
+    
     return (
         <div className="buttons">
             <button
@@ -36,7 +36,7 @@ const Component: FC<ComponentProps> = (props) => {
                 type="radio"
                 className="icon-button"
                 checked={restartAfterTimeUp}
-                onChange={() => setRestartAfterTimeUp(!restartAfterTimeUp)}
+                onClick={() => setRestartAfterTimeUp(!restartAfterTimeUp)}
             />
         </div>
     );
