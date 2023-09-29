@@ -1,21 +1,32 @@
 import React, { FC, useState } from "react";
 import { chronoTimerServiceFactory } from "../../services/ChronoTimerServiceImpl";
 import { chronoModelFactory } from "../../models/ChronoModelImpl";
+import locationServiceFactory from "../../services/LocationServiceImpl";
+import { ChronoParams } from "../../types/enums/chrono-params-enum";
+import { booleanToString } from "../../tools";
 
 interface ComponentProps {
     updateCounter: () => void;
     resetCallback: () => void;
+    restartAfterTimeUp: boolean;
 }
 
 const chronoTimerService = chronoTimerServiceFactory();
+const locationService = locationServiceFactory();
 const chronoModel = chronoModelFactory();
 
 const Component: FC<ComponentProps> = (props) => {
-    const [restartAfterTimeUp, setRestartAfterTimeUp] = useState(false);
+    const [restartAfterTimeUp, setRestartAfterTimeUp] = useState(props.restartAfterTimeUp);
 
     const resetHandler = () => {
         chronoTimerService.resetTimer(chronoModel);
         props.resetCallback();
+    }
+
+    const restartHandler = () => {
+        const newValue = !restartAfterTimeUp;
+        locationService.pushParam(ChronoParams.LOOP, booleanToString(newValue));
+        setRestartAfterTimeUp(newValue);
     }
 
     return (
@@ -36,7 +47,7 @@ const Component: FC<ComponentProps> = (props) => {
                 type="radio"
                 className="icon-button input-radio"
                 checked={restartAfterTimeUp}
-                onClick={() => setRestartAfterTimeUp(!restartAfterTimeUp)}
+                onClick={restartHandler}
             />
         </div>
     );

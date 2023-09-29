@@ -5,7 +5,7 @@ import { chronoModelFactory } from "../models/ChronoModelImpl";
 import { Chrono } from "../types/enums/chrono-enum";
 import useKeyboardChronoInput from "../hooks/useKeyboardChronoInput";
 import locationServiceFactory from "../services/LocationServiceImpl";
-import { getChronoParamByChronoType } from "../tools";
+import { getChronoParamByChronoType, stringToBoolean } from "../tools";
 import { ChronoParams } from "../types/enums/chrono-params-enum";
 
 const locationService = locationServiceFactory();
@@ -15,6 +15,7 @@ const App: FC = () => {
   const [chrono, setChrono] = useState<Chrono>(null);
   const [totalCounter, setTotalCounter] = useState(0); // TODO :: use counter or refactoring views-update
   const [isResetButtonPressed, setResetButtonPressed] = useState(false);
+  const [loop, setLoop] = useState(false);
 
   const updateCounter = useCallback(() => {
     setTotalCounter((prev) => prev + 1);
@@ -51,6 +52,7 @@ const App: FC = () => {
     chronoModel.setChrono(Chrono.HOURS, locationService.parseParam(ChronoParams.HOURS) as number);
     chronoModel.setChrono(Chrono.MINUTES, locationService.parseParam(ChronoParams.MINUTES) as number);
     chronoModel.setChrono(Chrono.SECONDS, locationService.parseParam(ChronoParams.SECONDS) as number);
+    setLoop(stringToBoolean(locationService.parseParam(ChronoParams.LOOP) as string));
     reset();
   }, []);
 
@@ -60,6 +62,7 @@ const App: FC = () => {
       <CountdownActions
         updateCounter={updateCounter}
         resetCallback={resetCallback}
+        restartAfterTimeUp={loop}
       />
     </div>
   );

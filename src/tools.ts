@@ -13,3 +13,11 @@ export function getChronoParamByChronoType(chrono: Chrono): ChronoParams {
             return;
     }
 }
+
+export function stringToBoolean(value: string): boolean {
+    return JSON.parse(value) === "true";
+}
+
+export function booleanToString(value: boolean): string {
+    return value ? "true" : "false";
+}
